@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import type { TransactionData, TransactionType } from "../types/transaction";
 
 const Transactions = () => {
@@ -24,11 +24,11 @@ const Transactions = () => {
 
   const noTransactionsData = "No transactions found";
 
-  const calcIncomeExpenseBalance = (transactions: TransactionData[]) => {
+  const { income, expense, balance } = useMemo(() => {
     let income = 0;
     let expense = 0;
 
-    transactions.forEach((item) => {
+    transactionsData.forEach((item) => {
       if (item.type === "income") {
         income = income + item.amount;
       } else {
@@ -41,10 +41,9 @@ const Transactions = () => {
       expense,
       balance: income - expense,
     };
-  };
-
-  const { income, expense, balance } =
-    calcIncomeExpenseBalance(transactionsData);
+    // If you’re using useMemo, Then this is an object, not a function.
+    // Notice we don’t call calcIncomeExpenseBalance(). Because useMemo already executes and returns the object.
+  }, [transactionsData]);
 
   return (
     <>
