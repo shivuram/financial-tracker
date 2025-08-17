@@ -24,12 +24,34 @@ const Transactions = () => {
 
   const noTransactionsData = "No transactions found";
 
+  const calcIncomeExpenseBalance = (transactions: TransactionData[]) => {
+    let income = 0;
+    let expense = 0;
+
+    transactions.forEach((item) => {
+      if (item.type === "income") {
+        income = income + item.amount;
+      } else {
+        expense = expense + item.amount;
+      }
+    });
+
+    return {
+      income,
+      expense,
+      balance: income - expense,
+    };
+  };
+
+  const { income, expense, balance } =
+    calcIncomeExpenseBalance(transactionsData);
+
   return (
     <>
       <div className="tracker-container">
         <div className="header-container">
           <div className="balance">
-            <h3>Balance: ₹0</h3>
+            <h3>Balance: ₹{balance}</h3>
           </div>
 
           <button className="toggle-form-button">Add Transaction</button>
@@ -60,8 +82,8 @@ const Transactions = () => {
         </div>
 
         <div className="summary">
-          <div>Income: ₹0</div>
-          <div>Expense: ₹0</div>
+          <div>Income: ₹{income}</div>
+          <div>Expense: ₹{expense}</div>
         </div>
 
         {transactionsData.length > 0 ? (
