@@ -22,6 +22,14 @@ const Transactions = () => {
     // setTransactions((prev) => [...prev, newTx]);
   };
 
+  const deleteTransactions = (item: TransactionData) => {
+    const updatedTransactions = transactionsData.filter((val) => {
+      return val.id !== item.id;
+    });
+
+    setTransactions(updatedTransactions);
+  };
+
   const noTransactionsData = "No transactions found";
 
   const { income, expense, balance } = useMemo(() => {
@@ -91,6 +99,13 @@ const Transactions = () => {
               <ul>
                 <li className={item.type === "expense" ? "expense" : "income"}>
                   {item.title} {item.amount}
+                  <button className="edit">Edit</button>
+                  <button
+                    className="delete"
+                    onClick={() => deleteTransactions(item)}
+                  >
+                    Delete
+                  </button>
                 </li>
               </ul>
             </div>

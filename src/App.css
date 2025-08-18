@@ -163,8 +163,19 @@
   cursor: pointer;
 }
 
-.transactions button:hover {
+.transactions button.edit {
+  background: #4caf50;
+}
+
+.transactions button.delete {
+  background: #e53935;
+}
+.transactions button.delete:hover {
   background: #c62828;
+}
+
+.transactions button.edit:hover {
+  background: #038507;
 }
 
 .no-transactions {
