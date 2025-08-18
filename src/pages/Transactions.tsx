@@ -6,7 +6,7 @@ const Transactions = () => {
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
   // const [amount, setAmount] = useState<number>(0);
-  const [type, setType] = useState<"income" | "expense">("expense");
+  const [type, setType] = useState<TransactionType>("expense");
 
   const addTransactions = () => {
     const newTx: TransactionData = {

@@ -2,7 +2,7 @@ export type TransactionData = {
   id: number;
   title: string;
   amount: number;
-  type: "income" | "expense"; // better to use union instead of string
+  type: TransactionType;
 };
 
 export type TransactionType = "income" | "expense";
