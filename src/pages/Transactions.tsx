@@ -6,21 +6,39 @@ const Transactions = () => {
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState<number | null>(null);
   const [type, setType] = useState<TransactionType>("expense");
+  const [isEdit, setIsEdit] = useState(false);
+  const [editingId, setEditingId] = useState<number | null>(null);
 
   const addTransactions = () => {
     if (amount === null) return; // block invalid transaction
 
-    const newTx: TransactionData = {
-      id: Math.random(),
-      title,
-      amount: amount, // ensure number
-      type, // valid union
-    };
+    if (!isEdit) {
+      // ➕ Add new transaction
+      const newTx: TransactionData = {
+        id: Math.random(),
+        title,
+        amount: amount, // ensure number
+        type, // valid union
+      };
 
-    setTransactions([...transactionsData, newTx]);
-    setTitle("");
-    setAmount(null);
-    // setTransactions((prev) => [...prev, newTx]);
+      setTransactions([...transactionsData, newTx]);
+      setTitle("");
+      setAmount(null);
+      // setTransactions((prev) => [...prev, newTx]);
+    } else {
+      // 🔄 Update existing transaction
+      const updatedTransactions = transactionsData.map((tx) => {
+        if (tx.id === editingId) {
+          return { ...tx, title, amount, type };
+        }
+        return tx;
+      });
+      setTransactions(updatedTransactions);
+      setIsEdit(false);
+      setEditingId(null);
+      setTitle("");
+      setAmount(null);
+    }
   };
 
   const deleteTransactions = (item: TransactionData) => {
@@ -29,6 +47,14 @@ const Transactions = () => {
     });
 
     setTransactions(updatedTransactions);
+  };
+
+  const editTransactions = (item: TransactionData) => {
+    setTitle(item.title);
+    setAmount(item.amount);
+    setType(item.type);
+    setEditingId(item.id); // mark as editing
+    setIsEdit(true);
   };
 
   const noTransactionsData = "No transactions found";
@@ -88,7 +114,9 @@ const Transactions = () => {
           </select>
           {/* <label>Select Date of Transaction</label>
           <input id="date" type="date" className="input-date" /> */}
-          <button onClick={addTransactions}>Submit</button>
+          <button onClick={addTransactions}>
+            {!isEdit ? "Submit" : "Update"}
+          </button>
         </div>
 
         <div className="summary">
@@ -101,8 +129,13 @@ const Transactions = () => {
             <div key={item.id} className="transactions">
               <ul>
                 <li className={item.type === "expense" ? "expense" : "income"}>
-                  {item.title} {item.amount}
-                  <button className="edit">Edit</button>
+                  {item.title} ₹{item.amount}
+                  <button
+                    className="edit"
+                    onClick={() => editTransactions(item)}
+                  >
+                    Edit
+                  </button>
                   <button
                     className="delete"
                     onClick={() => deleteTransactions(item)}
