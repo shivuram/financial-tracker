@@ -4,21 +4,22 @@ import type { TransactionData, TransactionType } from "../types/transaction";
 const Transactions = () => {
   const [transactionsData, setTransactions] = useState<TransactionData[]>([]);
   const [title, setTitle] = useState("");
-  const [amount, setAmount] = useState("");
-  // const [amount, setAmount] = useState<number>(0);
+  const [amount, setAmount] = useState<number | null>(null);
   const [type, setType] = useState<TransactionType>("expense");
 
   const addTransactions = () => {
+    if (amount === null) return; // block invalid transaction
+
     const newTx: TransactionData = {
       id: Math.random(),
       title,
-      amount: Number(amount), // ensure number
+      amount: amount, // ensure number
       type, // valid union
     };
 
     setTransactions([...transactionsData, newTx]);
     setTitle("");
-    setAmount("");
+    setAmount(null);
     // setTransactions((prev) => [...prev, newTx]);
   };
 
@@ -75,8 +76,10 @@ const Transactions = () => {
           <input
             type="number"
             placeholder="Amount"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
+            value={amount ?? ""} // if null → show empty string
+            onChange={(e) =>
+              setAmount(e.target.value ? Number(e.target.value) : null)
+            }
           />
           <label>Select Transaction Type</label>
           <select onChange={(e) => setType(e.target.value as TransactionType)}>

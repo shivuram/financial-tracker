@@ -135,6 +135,10 @@
   margin: 0;
 }
 
+.transactions ul {
+  padding: 5px;
+}
+
 .transactions li {
   display: flex;
   justify-content: space-between;
