@@ -39,6 +39,7 @@ const Transactions = () => {
   const [errorMsg, setErrorMsg] = useState("");
   const [filterType, setFilterType] = useState("");
   const [sortOrder, setSortOrder] = useState("");
+  const [search, setSearch] = useState("");
 
   const addTransactions = () => {
     if (amount === null) return; // block invalid transaction
@@ -125,14 +126,21 @@ const Transactions = () => {
   const filteredAndSortedTransactions = useMemo(() => {
     let data = [...transactionsData];
 
-    // filter
+    // filter by type
     if (filterType) {
       data = data.filter((tx) => {
         return tx.type === filterType;
       });
     }
 
-    // Sort
+    // search by title
+    if (search.trim()) {
+      data = data.filter((tx) => {
+        return tx.title.toLowerCase().includes(search.toLowerCase());
+      });
+    }
+
+    // Sort by amount
     if (sortOrder === "high") {
       data.sort((a, b) => {
         return b.amount - a.amount;
@@ -144,7 +152,7 @@ const Transactions = () => {
     }
 
     return data;
-  }, [transactionsData, filterType, sortOrder]);
+  }, [transactionsData, filterType, sortOrder, search]);
 
   return (
     <>
@@ -238,7 +246,12 @@ const Transactions = () => {
           <p className="no-transactions">{noTransactionsData}</p>
         )}
 
-        <input type="text" placeholder="Search..." className="search" />
+        <input
+          type="text"
+          placeholder="Search..."
+          className="search"
+          onChange={(e) => setSearch(e.target.value)}
+        />
       </div>
     </>
   );
