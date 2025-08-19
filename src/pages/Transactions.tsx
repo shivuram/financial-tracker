@@ -8,9 +8,21 @@ const Transactions = () => {
   const [type, setType] = useState<TransactionType>("expense");
   const [isEdit, setIsEdit] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
+  const [errorMsg, setErrorMsg] = useState("");
 
   const addTransactions = () => {
     if (amount === null) return; // block invalid transaction
+
+    // Amount must be positive number
+    if (amount < 0) {
+      setErrorMsg("Amount Should be a positive number");
+      return;
+    }
+
+    if (title.length === 0) {
+      setErrorMsg("Title should not be empty");
+      return;
+    }
 
     if (!isEdit) {
       // ➕ Add new transaction
@@ -118,6 +130,7 @@ const Transactions = () => {
             {!isEdit ? "Submit" : "Update"}
           </button>
         </div>
+        <div className="error">{errorMsg && errorMsg}</div>
 
         <div className="summary">
           <div>Income: ₹{income}</div>

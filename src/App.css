@@ -85,6 +85,11 @@
   font-family: "Segoe UI", sans-serif;
 }
 
+.tracker-container .error {
+  color: #c62828;
+  font-size: 12px;
+}
+
 .form {
   display: flex;
   flex-direction: column;
