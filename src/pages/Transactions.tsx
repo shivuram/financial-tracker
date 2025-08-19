@@ -40,6 +40,7 @@ const Transactions = () => {
   const [filterType, setFilterType] = useState("");
   const [sortOrder, setSortOrder] = useState("");
   const [search, setSearch] = useState("");
+  const [showForm, setShowForm] = useState(false);
 
   const addTransactions = () => {
     if (amount === null) return; // block invalid transaction
@@ -162,36 +163,46 @@ const Transactions = () => {
             <h3>Balance: ₹{balance}</h3>
           </div>
 
-          <button className="toggle-form-button">Add Transaction</button>
-        </div>
-        <div className="form">
-          <label>Enter Title</label>
-          <input
-            type="text"
-            placeholder="Enter Title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <label>Enter Amount</label>
-          <input
-            type="number"
-            placeholder="Amount"
-            value={amount ?? ""} // if null → show empty string
-            onChange={(e) =>
-              setAmount(e.target.value ? Number(e.target.value) : null)
-            }
-          />
-          <label>Select Transaction Type</label>
-          <select onChange={(e) => setType(e.target.value as TransactionType)}>
-            <option value="income">Income</option>
-            <option value="expense">Expense</option>
-          </select>
-          {/* <label>Select Date of Transaction</label>
-          <input id="date" type="date" className="input-date" /> */}
-          <button onClick={addTransactions}>
-            {!isEdit ? "Submit" : "Update"}
+          <button
+            className="toggle-form-button"
+            onClick={() => setShowForm(!showForm)}
+          >
+            {showForm ? "Close Transaction Form" : "Open Transaction Form"}
           </button>
         </div>
+
+        {showForm && (
+          <div className="form">
+            <label>Enter Title</label>
+            <input
+              type="text"
+              placeholder="Enter Title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+            <label>Enter Amount</label>
+            <input
+              type="number"
+              placeholder="Amount"
+              value={amount ?? ""} // if null → show empty string
+              onChange={(e) =>
+                setAmount(e.target.value ? Number(e.target.value) : null)
+              }
+            />
+            <label>Select Transaction Type</label>
+            <select
+              onChange={(e) => setType(e.target.value as TransactionType)}
+            >
+              <option value="income">Income</option>
+              <option value="expense">Expense</option>
+            </select>
+            {/* <label>Select Date of Transaction</label>
+          <input id="date" type="date" className="input-date" /> */}
+            <button onClick={addTransactions}>
+              {!isEdit ? "Submit" : "Update"}
+            </button>
+          </div>
+        )}
         <div className="error">{errorMsg && errorMsg}</div>
 
         <div className="summary">
