@@ -51,6 +51,20 @@
   font-family: "Segoe UI", sans-serif;
 }
 
+.filtering {
+  display: flex;
+  justify-content: flex-start;
+  gap: 5px;
+}
+
+.filtering select {
+  margin: 5px;
+}
+
+.filtering select option[value=""] {
+  color: grey;
+}
+
 .header-container {
   display: flex;
   justify-content: space-between;

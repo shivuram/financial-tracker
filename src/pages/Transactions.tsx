@@ -1,14 +1,44 @@
 import { useMemo, useState } from "react";
 import type { TransactionData, TransactionType } from "../types/transaction";
 
+const mockData: TransactionData[] = [
+  {
+    id: 1,
+    title: "Food",
+    amount: 5000,
+    type: "expense",
+  },
+  {
+    id: 2,
+    title: "Vegetables",
+    amount: 2000,
+    type: "expense",
+  },
+  {
+    id: 3,
+    title: "Fruits",
+    amount: 1000,
+    type: "expense",
+  },
+  {
+    id: 4,
+    title: "Salary",
+    amount: 40000,
+    type: "income",
+  },
+];
+
 const Transactions = () => {
-  const [transactionsData, setTransactions] = useState<TransactionData[]>([]);
+  const [transactionsData, setTransactions] =
+    useState<TransactionData[]>(mockData);
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState<number | null>(null);
   const [type, setType] = useState<TransactionType>("expense");
   const [isEdit, setIsEdit] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [errorMsg, setErrorMsg] = useState("");
+  const [filterType, setFilterType] = useState("");
+  const [sortOrder, setSortOrder] = useState("");
 
   const addTransactions = () => {
     if (amount === null) return; // block invalid transaction
@@ -92,6 +122,30 @@ const Transactions = () => {
     // Notice we don’t call calcIncomeExpenseBalance(). Because useMemo already executes and returns the object.
   }, [transactionsData]);
 
+  const filteredAndSortedTransactions = useMemo(() => {
+    let data = [...transactionsData];
+
+    // filter
+    if (filterType) {
+      data = data.filter((tx) => {
+        return tx.type === filterType;
+      });
+    }
+
+    // Sort
+    if (sortOrder === "high") {
+      data.sort((a, b) => {
+        return b.amount - a.amount;
+      });
+    } else if (sortOrder === "low") {
+      data.sort((a, b) => {
+        return a.amount - b.amount;
+      });
+    }
+
+    return data;
+  }, [transactionsData, filterType, sortOrder]);
+
   return (
     <>
       <div className="tracker-container">
@@ -137,8 +191,29 @@ const Transactions = () => {
           <div>Expense: ₹{expense}</div>
         </div>
 
-        {transactionsData.length > 0 ? (
-          transactionsData.map((item) => (
+        <div className="filtering">
+          <label>Filter By</label>
+          <select
+            value={filterType}
+            onChange={(e) => setFilterType(e.target.value)}
+          >
+            <option value="">All</option>
+            <option value="income">Income</option>
+            <option value="expense">Expense</option>
+          </select>
+          <label>Sort By</label>
+          <select
+            value={sortOrder}
+            onChange={(e) => setSortOrder(e.target.value)}
+          >
+            <option value="">None</option>
+            <option value="high">Amount (High → Low)</option>
+            <option value="low">Amount (Low → High)</option>
+          </select>
+        </div>
+
+        {filteredAndSortedTransactions.length > 0 ? (
+          filteredAndSortedTransactions.map((item) => (
             <div key={item.id} className="transactions">
               <ul>
                 <li className={item.type === "expense" ? "expense" : "income"}>
