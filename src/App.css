@@ -58,11 +58,26 @@
 }
 
 .filtering select {
-  margin: 5px;
+  /* margin: 5px; */
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  margin: 0 8px;
+  transition: border-color 0.2s ease;
 }
 
-.filtering select option[value=""] {
-  color: grey;
+.filtering select:focus {
+  outline: none;
+  border-color: #007bff; /* highlight on focus */
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.4);
+}
+
+.filtering label {
+  font-weight: 500;
+  margin-right: 6px;
 }
 
 .header-container {
