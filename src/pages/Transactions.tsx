@@ -1,5 +1,8 @@
 import { useMemo, useState } from "react";
 import type { TransactionData, TransactionType } from "../types/transaction";
+import TransactionForm from "../components/Transactions/TransactionForm";
+import TransactionList from "../components/Transactions/TransactionList";
+import TransactionFilters from "../components/Transactions/TransactionFilters";
 
 const mockData: TransactionData[] = [
   {
@@ -101,8 +104,6 @@ const Transactions = () => {
     setIsEdit(true);
   };
 
-  const noTransactionsData = "No transactions found";
-
   const { income, expense, balance } = useMemo(() => {
     let income = 0;
     let expense = 0;
@@ -172,37 +173,18 @@ const Transactions = () => {
         </div>
 
         {showForm && (
-          <div className="form">
-            <label>Enter Title</label>
-            <input
-              type="text"
-              placeholder="Enter Title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-            <label>Enter Amount</label>
-            <input
-              type="number"
-              placeholder="Amount"
-              value={amount ?? ""} // if null → show empty string
-              onChange={(e) =>
-                setAmount(e.target.value ? Number(e.target.value) : null)
-              }
-            />
-            <label>Select Transaction Type</label>
-            <select
-              onChange={(e) => setType(e.target.value as TransactionType)}
-            >
-              <option value="income">Income</option>
-              <option value="expense">Expense</option>
-            </select>
-            {/* <label>Select Date of Transaction</label>
-          <input id="date" type="date" className="input-date" /> */}
-            <button onClick={addTransactions}>
-              {!isEdit ? "Submit" : "Update"}
-            </button>
-          </div>
+          <TransactionForm
+            title={title}
+            setTitle={setTitle}
+            amount={amount}
+            setAmount={setAmount}
+            type={type}
+            setType={setType}
+            addTransactions={addTransactions}
+            isEdit={isEdit}
+          />
         )}
+
         <div className="error">{errorMsg && errorMsg}</div>
 
         <div className="summary">
@@ -210,58 +192,18 @@ const Transactions = () => {
           <div>Expense: ₹{expense}</div>
         </div>
 
-        <div className="filtering">
-          <label>Filter By</label>
-          <select
-            value={filterType}
-            onChange={(e) => setFilterType(e.target.value)}
-          >
-            <option value="">All</option>
-            <option value="income">Income</option>
-            <option value="expense">Expense</option>
-          </select>
-          <label>Sort By</label>
-          <select
-            value={sortOrder}
-            onChange={(e) => setSortOrder(e.target.value)}
-          >
-            <option value="">None</option>
-            <option value="high">Amount (High → Low)</option>
-            <option value="low">Amount (Low → High)</option>
-          </select>
-        </div>
+        <TransactionFilters
+          filterType={filterType}
+          setFilterType={setFilterType}
+          sortOrder={sortOrder}
+          setSortOrder={setSortOrder}
+          setSearch={setSearch}
+        />
 
-        {filteredAndSortedTransactions.length > 0 ? (
-          filteredAndSortedTransactions.map((item) => (
-            <div key={item.id} className="transactions">
-              <ul>
-                <li className={item.type === "expense" ? "expense" : "income"}>
-                  {item.title} ₹{item.amount}
-                  <button
-                    className="edit"
-                    onClick={() => editTransactions(item)}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className="delete"
-                    onClick={() => deleteTransactions(item)}
-                  >
-                    Delete
-                  </button>
-                </li>
-              </ul>
-            </div>
-          ))
-        ) : (
-          <p className="no-transactions">{noTransactionsData}</p>
-        )}
-
-        <input
-          type="text"
-          placeholder="Search..."
-          className="search"
-          onChange={(e) => setSearch(e.target.value)}
+        <TransactionList
+          transactions={filteredAndSortedTransactions}
+          editTransactions={editTransactions}
+          deleteTransactions={deleteTransactions}
         />
       </div>
     </>
