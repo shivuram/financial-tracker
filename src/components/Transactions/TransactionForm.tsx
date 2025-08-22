@@ -22,15 +22,17 @@ const TransactionForm = ({
 }: Props) => {
   return (
     <div className="form">
-      <label>Enter Title</label>
+      <label htmlFor="title">Enter Title</label>
       <input
+        id="title"
         type="text"
         placeholder="Enter Title"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
       />
-      <label>Enter Amount</label>
+      <label htmlFor="amount">Enter Amount</label>
       <input
+        id="amount"
         type="number"
         placeholder="Amount"
         value={amount ?? ""} // if null → show empty string

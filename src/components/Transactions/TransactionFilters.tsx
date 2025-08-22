@@ -16,8 +16,9 @@ const TransactionFilters = ({
   return (
     <>
       <div className="filtering">
-        <label>Filter By</label>
+        <label htmlFor="filter">Filter By</label>
         <select
+          id="filter"
           value={filterType}
           onChange={(e) => setFilterType(e.target.value)}
         >
@@ -25,8 +26,9 @@ const TransactionFilters = ({
           <option value="income">Income</option>
           <option value="expense">Expense</option>
         </select>
-        <label>Sort By</label>
+        <label htmlFor="sort">Sort By</label>
         <select
+          id="sort"
           value={sortOrder}
           onChange={(e) => setSortOrder(e.target.value)}
         >
