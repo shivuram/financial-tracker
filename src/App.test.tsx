@@ -1,8 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import App from "./App";
-import "@testing-library/jest-dom";
 
-test("renders hello world", () => {
+test("renders Open Transaction Form", () => {
   render(<App />);
-  expect(screen.getByText(/hello world/i)).toBeInTheDocument();
+  expect(screen.getByText(/Open Transaction Form/i)).toBeInTheDocument();
 });
