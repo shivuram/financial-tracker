@@ -1,10 +1,20 @@
 import "./App.css";
 import Transactions from "./pages/Transactions";
+import JobPortal from "./pages/Job-Portal/Job-Portal";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
 
 function App() {
   return (
     <>
-      <Transactions />
+      {/* <Transactions /> */}
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/transactions" element={<Transactions />} />
+          <Route path="/job-portal" element={<JobPortal />} />
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }
