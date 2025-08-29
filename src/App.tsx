@@ -1,5 +1,5 @@
 import "./App.css";
-import Transactions from "./pages/Transactions";
+import Transactions from "./pages/Transactions/Transactions";
 import JobPortal from "./pages/Job-Portal/Job-Portal";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";

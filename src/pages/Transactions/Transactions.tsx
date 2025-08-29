@@ -1,8 +1,8 @@
 import { useMemo, useState } from "react";
-import type { TransactionData, TransactionType } from "../types/transaction";
-import TransactionForm from "../components/Transactions/TransactionForm";
-import TransactionList from "../components/Transactions/TransactionList";
-import TransactionFilters from "../components/Transactions/TransactionFilters";
+import type { TransactionData, TransactionType } from "../../types/transaction";
+import TransactionForm from "../../components/Transactions/TransactionForm";
+import TransactionList from "../../components/Transactions/TransactionList";
+import TransactionFilters from "../../components/Transactions/TransactionFilters";
 
 const mockData: TransactionData[] = [
   {
