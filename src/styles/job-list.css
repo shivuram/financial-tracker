@@ -60,3 +60,16 @@
   font-weight: bold;
   color: #1e9e62;
 }
+
+.add-jobs-header {
+  margin-bottom: 20px;
+}
+
+.add-jobs-header button {
+  padding: 8px;
+  background: #2196f3;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
