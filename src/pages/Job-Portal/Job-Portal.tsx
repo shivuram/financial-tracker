@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import type { Job } from "../../types/transaction";
+import "../../styles/job-list.css";
 
 const JobPortal = () => {
+  const navigate = useNavigate();
   const [jobs, setJobs] = useState<Job[]>([]);
   const [totalCount, setTotalCount] = useState<number>(0);
   const [error, setError] = useState(false);
@@ -33,19 +36,32 @@ const JobPortal = () => {
   return (
     <>
       <div className="tracker-container">
-        <h2>Jobs (Total: {totalCount})</h2>
+        <div className="header-container">
+          <h2>Jobs (Total: {totalCount})</h2>
+          <button
+            className="toggle-form-button"
+            onClick={() => navigate("/job-portal/add-jobs")}
+          >
+            Add Jobs
+          </button>
+        </div>
+
+        <div>
+          <input type="text" placeholder="Search..." className="search" />
+        </div>
+
         {isLoading && <div>Loading...</div>}
-        {!isLoading && (
-          <ul>
-            {jobs.map((job) => {
-              return (
-                <li key={job.id}>
-                  {job.title} - {job.company}
-                </li>
-              );
-            })}
-          </ul>
-        )}
+        <div className="job-container">
+          {!isLoading &&
+            jobs.map((job) => (
+              <div className="job-card" key={job.id}>
+                <h2 className="job-title">{job.title}</h2>
+                <p className="job-company">{job.company}</p>
+                <p className="job-location">{job.location}</p>
+                <p className="job-salary">{job.salary}</p>
+              </div>
+            ))}
+        </div>
       </div>
     </>
   );
