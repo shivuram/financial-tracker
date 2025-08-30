@@ -51,8 +51,9 @@ const JobPortal = () => {
         </div>
 
         {isLoading && <div>Loading...</div>}
+
         <div className="job-container">
-          {!isLoading &&
+          {!isLoading && jobs.length > 0 ? (
             jobs.map((job) => (
               <div className="job-card" key={job.id}>
                 <h2 className="job-title">{job.title}</h2>
@@ -60,7 +61,10 @@ const JobPortal = () => {
                 <p className="job-location">{job.location}</p>
                 <p className="job-salary">{job.salary}</p>
               </div>
-            ))}
+            ))
+          ) : (
+            <div>No Jobs Found</div>
+          )}
         </div>
       </div>
     </>
