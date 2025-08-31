@@ -1,37 +1,11 @@
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import type { Job } from "../../types/transaction";
+import { JobsContext } from "../../contexts/JobsContext";
 import "../../styles/job-list.css";
 
 const JobPortal = () => {
   const navigate = useNavigate();
-  const [jobs, setJobs] = useState<Job[]>([]);
-  const [totalCount, setTotalCount] = useState<number>(0);
-  const [error, setError] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    const fetchJobs = async () => {
-      setIsLoading(true);
-      try {
-        const response = await fetch(
-          "http://localhost:5000/jobs?_page=1&_limit=10"
-        );
-        const data = await response.json();
-        setJobs(data.data);
-        setTotalCount(data.meta.totalCount);
-      } catch {
-        setError(true);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchJobs();
-  }, []);
-
-  if (error) {
-    return <div className="tracker-container">Something went wrong</div>;
-  }
+  const { jobs, isLoading, error, totalCount } = useContext(JobsContext);
 
   return (
     <>
@@ -52,19 +26,19 @@ const JobPortal = () => {
 
         {isLoading && <div>Loading...</div>}
 
+        {error && <div>Something went wrong</div>}
+
+        {!isLoading && jobs.length === 0 && <p>No Jobs Found</p>}
+
         <div className="job-container">
-          {!isLoading && jobs.length > 0 ? (
-            jobs.map((job) => (
-              <div className="job-card" key={job.id}>
-                <h2 className="job-title">{job.title}</h2>
-                <p className="job-company">{job.company}</p>
-                <p className="job-location">{job.location}</p>
-                <p className="job-salary">{job.salary}</p>
-              </div>
-            ))
-          ) : (
-            <div>No Jobs Found</div>
-          )}
+          {jobs.map((job) => (
+            <div className="job-card" key={job.id}>
+              <h2 className="job-title">{job.title}</h2>
+              <p className="job-company">{job.company}</p>
+              <p className="job-location">{job.location}</p>
+              <p className="job-salary">{job.salary}</p>
+            </div>
+          ))}
         </div>
       </div>
     </>

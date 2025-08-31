@@ -1,14 +1,15 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import type { Job } from "../../types/transaction";
+import { useContext } from "react";
+import { JobsContext } from "../../contexts/JobsContext";
 
 const AddJobs = () => {
   const navigate = useNavigate();
-  const [jobs, setJobs] = useState<Job[]>([]);
-  const [totalCount, setTotalCount] = useState<number>(0);
+  const { addJob } = useContext(JobsContext);
 
   const addJobsHandler = async () => {
-    const newJob = {
+    const newJob: Job = {
+      id: Date.now(),
       title: "React Engineer",
       location: "Chennai",
       company: "SCB",
@@ -22,9 +23,9 @@ const AddJobs = () => {
       .then((res) => {
         return res.json();
       })
-      .then((data) => {
-        setJobs(data.data);
-        setTotalCount(data.meta.totalCount);
+      .then(() => {
+        addJob(newJob); // Optimistic Update instead of refetch again
+        navigate("/job-portal");
       });
   };
 
