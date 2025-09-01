@@ -1,19 +1,26 @@
 import { useNavigate } from "react-router-dom";
 import type { Job } from "../../types/transaction";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { JobsContext } from "../../contexts/JobsContext";
+
+const initialState = {
+  title: "",
+  location: "",
+  company: "",
+  salary: "",
+};
 
 const AddJobs = () => {
   const navigate = useNavigate();
   const { addJob } = useContext(JobsContext);
 
+  const [form, setForm] = useState(initialState);
+
   const addJobsHandler = async () => {
     const newJob: Job = {
       id: Date.now(),
-      title: "React Engineer",
-      location: "Chennai",
-      company: "SCB",
-      salary: "25 LPA",
+      ...form,
+      salary: form.salary ? Number(form.salary) : null,
     };
     await fetch("http://localhost:5000/jobs", {
       method: "POST",
@@ -29,6 +36,10 @@ const AddJobs = () => {
       });
   };
 
+  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
   return (
     <>
       <div className="tracker-container">
@@ -37,13 +48,33 @@ const AddJobs = () => {
         </div>
         <div className="form">
           <label htmlFor="Title">Title</label>
-          <input type="text" />
+          <input
+            type="text"
+            name="title"
+            value={form.title}
+            onChange={changeHandler}
+          />
           <label htmlFor="Title">Company</label>
-          <input type="text" />
+          <input
+            type="text"
+            name="company"
+            value={form.company}
+            onChange={changeHandler}
+          />
           <label htmlFor="Title">Location</label>
-          <input type="text" />
+          <input
+            type="text"
+            name="location"
+            value={form.location}
+            onChange={changeHandler}
+          />
           <label htmlFor="Title">Salary (LPA)</label>
-          <input type="number" />
+          <input
+            type="number"
+            name="salary"
+            value={form.salary}
+            onChange={changeHandler}
+          />
           <button onClick={addJobsHandler}>Submit</button>
         </div>
       </div>
