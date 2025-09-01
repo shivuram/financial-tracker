@@ -36,7 +36,7 @@ const JobPortal = () => {
               <h2 className="job-title">{job.title}</h2>
               <p className="job-company">{job.company}</p>
               <p className="job-location">{job.location}</p>
-              <p className="job-salary">{job.salary}</p>
+              <p className="job-salary">{job.salary} LPA</p>
             </div>
           ))}
         </div>

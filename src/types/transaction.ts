@@ -12,5 +12,5 @@ export type Job = {
   title: string;
   company: string;
   location: string;
-  salary: string;
+  salary: number | null;
 };
