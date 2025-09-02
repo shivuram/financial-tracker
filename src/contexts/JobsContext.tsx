@@ -1,5 +1,4 @@
 import { createContext, useState, ReactNode } from "react";
-import type { Dispatch, SetStateAction } from "react";
 import type { Job } from "../types/transaction";
 import { useEffect } from "react";
 
@@ -7,11 +6,7 @@ import { useEffect } from "react";
 
 type JobsContextType = {
   jobs: Job[];
-  setJobs: Dispatch<SetStateAction<Job[]>>;
-  //   fetchJobs: () => Promise<void>;
-  fetchJobs: (page?: number, limit?: number, search?: string) => Promise<void>;
   totalCount: number;
-  setTotalCount: Dispatch<SetStateAction<number>>;
   isLoading: boolean;
   error: string | null;
   addJob: (job: Job) => void;
@@ -19,14 +14,15 @@ type JobsContextType = {
 
 const JobsContext = createContext<JobsContextType>({
   jobs: [],
-  setJobs: () => [],
-  fetchJobs: async () => {},
   totalCount: 0,
-  setTotalCount: () => {},
   isLoading: false,
   error: null,
   addJob: () => {},
 });
+
+// export const JobsContext = createContext<JobsContextType | undefined>(
+//   undefined
+// );
 
 const JobsProvider = ({ children }: { children: ReactNode }) => {
   const [jobs, setJobs] = useState<Job[]>([]);
@@ -66,6 +62,7 @@ const JobsProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const addJob = (job: Job) => {
+    // Shall i post API call here instead of my route
     setJobs((prev) => [...prev, job]);
     setTotalCount((prev) => prev + 1);
   };
@@ -74,10 +71,7 @@ const JobsProvider = ({ children }: { children: ReactNode }) => {
     <JobsContext.Provider
       value={{
         jobs,
-        setJobs,
-        fetchJobs,
         totalCount,
-        setTotalCount,
         isLoading,
         error,
         addJob,
