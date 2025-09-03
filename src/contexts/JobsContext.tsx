@@ -10,6 +10,8 @@ type JobsContextType = {
   isLoading: boolean;
   error: string | null;
   addJob: (job: Job) => void;
+  page: number;
+  setPage: (page: number) => void;
 };
 
 const JobsContext = createContext<JobsContextType>({
@@ -18,6 +20,8 @@ const JobsContext = createContext<JobsContextType>({
   isLoading: false,
   error: null,
   addJob: () => {},
+  page: 1,
+  setPage: () => {},
 });
 
 // export const JobsContext = createContext<JobsContextType | undefined>(
@@ -29,6 +33,7 @@ const JobsProvider = ({ children }: { children: ReactNode }) => {
   const [totalCount, setTotalCount] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [page, setPage] = useState<number>(1);
 
   const navigate = useNavigate();
 
@@ -60,8 +65,8 @@ const JobsProvider = ({ children }: { children: ReactNode }) => {
   };
 
   useEffect(() => {
-    fetchJobs();
-  }, []);
+    fetchJobs(page);
+  }, [page]);
 
   const addJob = async (newJob: Job) => {
     // Shall i post API call here instead of my route
@@ -88,6 +93,8 @@ const JobsProvider = ({ children }: { children: ReactNode }) => {
         isLoading,
         error,
         addJob,
+        page,
+        setPage
       }}
     >
       {children}

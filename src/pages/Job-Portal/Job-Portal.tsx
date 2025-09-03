@@ -3,9 +3,25 @@ import { useNavigate } from "react-router-dom";
 import { JobsContext } from "../../contexts/JobsContext";
 import "../../styles/job-list.css";
 
+const JOBS_PER_PAGE = 10;
+
 const JobPortal = () => {
   const navigate = useNavigate();
-  const { jobs, isLoading, error, totalCount } = useContext(JobsContext);
+  const { jobs, isLoading, error, totalCount, page, setPage } = useContext(JobsContext);
+
+  const totalPages = Math.ceil(totalCount / JOBS_PER_PAGE);
+
+  const handlePrev = () => {
+    if(page > 1) {
+      setPage(page - 1);
+    }
+  }
+
+  const handleNext = () => {
+    if(page < totalPages) {
+      setPage(page + 1);
+    }
+  }
 
   return (
     <>
@@ -39,6 +55,18 @@ const JobPortal = () => {
               <p className="job-salary">{job.salary} LPA</p>
             </div>
           ))}
+        </div>
+
+         <div style={{ display: "flex", justifyContent: "center", marginTop: 20 }}>
+          <button onClick={handlePrev} disabled={page === 1}>
+            Previous
+          </button>
+          <span style={{ margin: "0 12px" }}>
+            Page {page} of {totalPages}
+          </span>
+          <button onClick={handleNext} disabled={page === totalPages}>
+            Next
+          </button>
         </div>
       </div>
     </>
