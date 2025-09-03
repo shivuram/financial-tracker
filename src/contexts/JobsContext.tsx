@@ -79,7 +79,7 @@ const JobsProvider = ({ children }: { children: ReactNode }) => {
         return res.json();
       })
       .then(() => {
-        setJobs((prev) => [...prev, newJob]); // Optimistic Update instead of refetch again
+        fetchJobs(page)   // Refetch jobs for the current page after adding
         setTotalCount((prev) => prev + 1);
         navigate("/job-portal");
       });
