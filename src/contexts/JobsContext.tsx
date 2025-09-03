@@ -12,6 +12,7 @@ type JobsContextType = {
   addJob: (job: Job) => void;
   page: number;
   setPage: (page: number) => void;
+  setSearch?: (search: string) => void;
 };
 
 const JobsContext = createContext<JobsContextType>({
@@ -22,11 +23,14 @@ const JobsContext = createContext<JobsContextType>({
   addJob: () => {},
   page: 1,
   setPage: () => {},
+  setSearch: () => {},
 });
 
 // export const JobsContext = createContext<JobsContextType | undefined>(
 //   undefined
 // );
+
+const LIMIT = 10
 
 const JobsProvider = ({ children }: { children: ReactNode }) => {
   const [jobs, setJobs] = useState<Job[]>([]);
@@ -34,6 +38,7 @@ const JobsProvider = ({ children }: { children: ReactNode }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState<number>(1);
+  const [search, setSearch] = useState<string>("");
 
   const navigate = useNavigate();
 
@@ -65,8 +70,8 @@ const JobsProvider = ({ children }: { children: ReactNode }) => {
   };
 
   useEffect(() => {
-    fetchJobs(page);
-  }, [page]);
+    fetchJobs(page, LIMIT, search);
+  }, [page, search]);
 
   const addJob = async (newJob: Job) => {
     // Shall i post API call here instead of my route
@@ -94,7 +99,8 @@ const JobsProvider = ({ children }: { children: ReactNode }) => {
         error,
         addJob,
         page,
-        setPage
+        setPage,
+        setSearch
       }}
     >
       {children}

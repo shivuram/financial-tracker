@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { JobsContext } from "../../contexts/JobsContext";
 import "../../styles/job-list.css";
@@ -7,7 +7,8 @@ const JOBS_PER_PAGE = 10;
 
 const JobPortal = () => {
   const navigate = useNavigate();
-  const { jobs, isLoading, error, totalCount, page, setPage } = useContext(JobsContext);
+  const { jobs, isLoading, error, totalCount, page, setPage, setSearch } = useContext(JobsContext);
+  const [searchText, setSearchText] = useState<string>("");
 
   const totalPages = Math.ceil(totalCount / JOBS_PER_PAGE);
 
@@ -23,6 +24,11 @@ const JobPortal = () => {
     }
   }
 
+  const handleSearch = () => {
+    setSearchText("")
+    setSearch && setSearch(searchText);
+  }
+
   return (
     <>
       <div className="tracker-container">
@@ -36,8 +42,9 @@ const JobPortal = () => {
           </button>
         </div>
 
-        <div>
-          <input type="text" placeholder="Search..." className="search" />
+        <div className="search-box">
+          <input type="text" value={searchText} onChange={(e) => setSearchText(e.target.value)} placeholder="Search..." className="search" />
+          <button onClick={handleSearch}>Search</button>
         </div>
 
         {isLoading && <div>Loading...</div>}
