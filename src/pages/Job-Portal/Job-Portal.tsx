@@ -43,8 +43,8 @@ const JobPortal = () => {
         </div>
 
         <div className="search-box">
-          <input type="text" value={searchText} onChange={(e) => setSearchText(e.target.value)} placeholder="Search..." className="search" />
-          <button onClick={handleSearch}>Search</button>
+          <input type="text" value={searchText} onChange={(e) => setSearchText(e.target.value)} placeholder="Search..." className="search"  />
+          <button disabled={searchText.trim() === ""} onClick={handleSearch}>Search</button>
         </div>
 
         {isLoading && <div>Loading...</div>}
