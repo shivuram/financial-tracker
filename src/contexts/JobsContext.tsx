@@ -1,7 +1,7 @@
 import { createContext, useState, ReactNode } from "react";
 import type { Job } from "../types/transaction";
 import { useEffect } from "react";
-
+import { useNavigate } from "react-router-dom";
 // context type
 
 type JobsContextType = {
@@ -29,6 +29,8 @@ const JobsProvider = ({ children }: { children: ReactNode }) => {
   const [totalCount, setTotalCount] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+
+  const navigate = useNavigate();
 
   const fetchJobs = async (
     page: number = 1,
@@ -61,10 +63,21 @@ const JobsProvider = ({ children }: { children: ReactNode }) => {
     fetchJobs();
   }, []);
 
-  const addJob = (job: Job) => {
+  const addJob = async (newJob: Job) => {
     // Shall i post API call here instead of my route
-    setJobs((prev) => [...prev, job]);
-    setTotalCount((prev) => prev + 1);
+    await fetch("http://localhost:5000/jobs", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newJob),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then(() => {
+        setJobs((prev) => [...prev, newJob]); // Optimistic Update instead of refetch again
+        setTotalCount((prev) => prev + 1);
+        navigate("/job-portal");
+      });
   };
 
   return (

@@ -22,18 +22,7 @@ const AddJobs = () => {
       ...form,
       salary: form.salary ? Number(form.salary) : null,
     };
-    await fetch("http://localhost:5000/jobs", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newJob),
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then(() => {
-        addJob(newJob); // Optimistic Update instead of refetch again
-        navigate("/job-portal");
-      });
+    addJob(newJob);
   };
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
