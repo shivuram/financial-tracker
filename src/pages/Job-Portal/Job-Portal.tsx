@@ -7,27 +7,30 @@ const JOBS_PER_PAGE = 10;
 
 const JobPortal = () => {
   const navigate = useNavigate();
-  const { jobs, isLoading, error, totalCount, page, setPage, setSearch } = useContext(JobsContext);
+  const { jobs, isLoading, error, totalCount, page, setPage, setSearch } =
+    useContext(JobsContext);
   const [searchText, setSearchText] = useState<string>("");
 
   const totalPages = Math.ceil(totalCount / JOBS_PER_PAGE);
 
   const handlePrev = () => {
-    if(page > 1) {
+    if (page > 1) {
       setPage(page - 1);
     }
-  }
+  };
 
   const handleNext = () => {
-    if(page < totalPages) {
+    if (page < totalPages) {
       setPage(page + 1);
     }
-  }
+  };
 
   const handleSearch = () => {
-    setSearchText("")
-    setSearch && setSearch(searchText);
-  }
+    setSearchText("");
+    if (setSearch) {
+      setSearch(searchText);
+    }
+  };
 
   return (
     <>
@@ -43,8 +46,16 @@ const JobPortal = () => {
         </div>
 
         <div className="search-box">
-          <input type="text" value={searchText} onChange={(e) => setSearchText(e.target.value)} placeholder="Search..." className="search"  />
-          <button disabled={searchText.trim() === ""} onClick={handleSearch}>Search</button>
+          <input
+            type="text"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            placeholder="Search..."
+            className="search"
+          />
+          <button disabled={searchText.trim() === ""} onClick={handleSearch}>
+            Search
+          </button>
         </div>
 
         {isLoading && <div>Loading...</div>}
@@ -64,7 +75,9 @@ const JobPortal = () => {
           ))}
         </div>
 
-         <div style={{ display: "flex", justifyContent: "center", marginTop: 20 }}>
+        <div
+          style={{ display: "flex", justifyContent: "center", marginTop: 20 }}
+        >
           <button onClick={handlePrev} disabled={page === 1}>
             Previous
           </button>
