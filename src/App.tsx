@@ -3,8 +3,9 @@ import Transactions from "./pages/Transactions/Transactions";
 import JobPortal from "./pages/Job-Portal/Job-Portal";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import AddJobs from "./pages/Job-Portal/add-jobs";
+import AddJobs from "./pages/Job-Portal/Add-jobs";
 import JobPortalLayout from "./pages/Job-Portal/JobPortalLayout";
+import MultiStepForm from "./pages/Multi-Step-Form/Mult-Step-Form";
 
 function App() {
   return (
@@ -21,6 +22,8 @@ function App() {
             <Route index element={<JobPortal />} />
             <Route path="add-jobs" element={<AddJobs />} />
           </Route>
+
+          <Route path="/multi-step-form" element={<MultiStepForm />} />
         </Routes>
       </BrowserRouter>
     </>

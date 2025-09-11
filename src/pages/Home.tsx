@@ -10,10 +10,13 @@ const Home = () => {
             <NavLink to="/">Home</NavLink>
           </li>
           <li>
-            <NavLink to="/transactions">Financial Tracker</NavLink>
+            <NavLink to="/transactions">Financial Tracker Application</NavLink>
           </li>
           <li>
-            <NavLink to="/job-portal">Job Portal</NavLink>
+            <NavLink to="/job-portal">Job Portal Application</NavLink>
+          </li>
+          <li>
+            <NavLink to="/multi-step-form">Multi Step Form Application</NavLink>
           </li>
         </ul>
       </nav>
