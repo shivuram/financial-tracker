@@ -65,9 +65,6 @@ const MultiStepForm = () => {
             onChange={changeHandler}
             className="text"
           />
-          <div className="btn-group">
-            <button onClick={() => setStep(1)}>Next</button>
-          </div>
         </div>
       )}
 
@@ -98,10 +95,6 @@ const MultiStepForm = () => {
             onChange={changeHandler}
             className="text"
           />
-          <div className="btn-group">
-            <button onClick={() => setStep(0)}>Back</button>
-            <button onClick={() => setStep(2)}>Next</button>
-          </div>
         </div>
       )}
 
@@ -113,12 +106,27 @@ const MultiStepForm = () => {
           <p>Job Title: React Developer</p>
           <p>Salary: Rs. 14 LPA</p>
           <p>Location: Chennai</p>
-          <div className="btn-group">
-            <button onClick={() => setStep(1)}>Back</button>
-            <button onClick={submitHandler}>Submit</button>
-          </div>
         </div>
       )}
+
+      {/* Navigation Buttons */}
+      <div className="buttons">
+        {step > 0 && (
+          <button className="btn" onClick={() => setStep((step) => step - 1)}>
+            Back
+          </button>
+        )}
+        {step < tabs.length - 1 && (
+          <button className="btn" onClick={() => setStep((step) => step + 1)}>
+            Next
+          </button>
+        )}
+        {step === tabs.length - 1 && (
+          <button className="btn submit" onClick={submitHandler}>
+            Submit
+          </button>
+        )}
+      </div>
     </div>
   );
 };
