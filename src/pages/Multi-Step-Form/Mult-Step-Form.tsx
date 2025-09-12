@@ -18,8 +18,10 @@ const initialData = {
 };
 
 const MultiStepForm = () => {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0);
   const [formData, setFormData] = useState<FormData>(initialData);
+
+  const tabs = ["Personal Info", "Job Application", "Review"];
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -32,26 +34,19 @@ const MultiStepForm = () => {
   return (
     <div className="form-container">
       <div className="tabs">
-        <div
-          onClick={() => setStep(1)}
-          className={`tab ${step === 1 ? "active" : ""}`}
-        >
-          Personal info
-        </div>
-        <div
-          onClick={() => setStep(2)}
-          className={`tab ${step === 2 ? "active" : ""}`}
-        >
-          Job Application
-        </div>
-        <div
-          onClick={() => setStep(3)}
-          className={`tab ${step === 3 ? "active" : ""}`}
-        >
-          Review
-        </div>
+        {tabs.map((tab, index) => {
+          return (
+            <button
+              key={index}
+              className={`tab ${index === step ? "active" : ""}`}
+              disabled={index !== step}
+            >
+              {tab}
+            </button>
+          );
+        })}
       </div>
-      {step === 1 && (
+      {step === 0 && (
         <div>
           <h2>Personal Information</h2>
           <label>Name</label>
@@ -71,12 +66,12 @@ const MultiStepForm = () => {
             className="text"
           />
           <div className="btn-group">
-            <button onClick={() => setStep(2)}>Next</button>
+            <button onClick={() => setStep(1)}>Next</button>
           </div>
         </div>
       )}
 
-      {step === 2 && (
+      {step === 1 && (
         <div>
           <h2>Job Details</h2>
           <label>Job Title</label>
@@ -104,13 +99,13 @@ const MultiStepForm = () => {
             className="text"
           />
           <div className="btn-group">
-            <button onClick={() => setStep(1)}>Back</button>
-            <button onClick={() => setStep(3)}>Next</button>
+            <button onClick={() => setStep(0)}>Back</button>
+            <button onClick={() => setStep(2)}>Next</button>
           </div>
         </div>
       )}
 
-      {step === 3 && (
+      {step === 2 && (
         <div>
           <h2>Review Information</h2>
           <p>Name: Shiva</p>
@@ -119,7 +114,7 @@ const MultiStepForm = () => {
           <p>Salary: Rs. 14 LPA</p>
           <p>Location: Chennai</p>
           <div className="btn-group">
-            <button onClick={() => setStep(2)}>Back</button>
+            <button onClick={() => setStep(1)}>Back</button>
             <button onClick={submitHandler}>Submit</button>
           </div>
         </div>
