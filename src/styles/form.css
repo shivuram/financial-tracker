@@ -85,13 +85,19 @@ button:hover {
   background: #0056b3;
 }
 
-.error {
+/* .error {
   background: #ffe0e0;
   color: #d00;
   padding: 8px;
   margin-bottom: 12px;
   border-radius: 6px;
   font-size: 14px;
+} */
+
+.error {
+  color: red;
+  font-size: 0.85rem;
+  margin-top: 4px;
 }
 
 .buttons {

@@ -20,6 +20,7 @@ const initialData = {
 const MultiStepForm = () => {
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState<FormData>(initialData);
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const tabs = ["Personal Info", "Job Application", "Review"];
 
@@ -27,8 +28,55 @@ const MultiStepForm = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const validateStep = (): boolean => {
+    const newErrors: Record<string, string> = {};
+
+    if (step === 0) {
+      if (!formData.name) {
+        newErrors.name = "Name is Required";
+      }
+      if (!formData.email) {
+        newErrors.email = "Email is Required";
+      }
+    }
+
+    if (step === 1) {
+      if (!formData.jobTitle) {
+        newErrors.jobTitle = "JobTitle is Required";
+      }
+      if (formData.salary === null) {
+        newErrors.salary = "Salary is required";
+      } else if (formData.salary <= 0) {
+        newErrors.salary = "Salary must be greater than 0";
+      }
+      if (!formData.location) {
+        newErrors.location = "Location is Required";
+      }
+    }
+
+    setErrors(newErrors);
+
+    console.log("newErrors", newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
+
   const submitHandler = () => {
-    console.dir(formData);
+    if (validateStep()) {
+      console.log("✅ Final Data:", formData);
+      alert("Form submitted! Check console.");
+    }
+    // console.dir(formData);
+  };
+
+  const nextStep = () => {
+    if (validateStep()) {
+      setStep((step) => step + 1);
+    }
+  };
+
+  const prevStep = () => {
+    setStep((step) => step - 1);
   };
 
   return (
@@ -57,6 +105,7 @@ const MultiStepForm = () => {
             onChange={changeHandler}
             className="text"
           />
+          {errors.name && <p className="error">{errors.name}</p>}
           <label>Email</label>
           <input
             type="text"
@@ -65,6 +114,7 @@ const MultiStepForm = () => {
             onChange={changeHandler}
             className="text"
           />
+          {errors.email && <p className="error">{errors.email}</p>}
         </div>
       )}
 
@@ -79,6 +129,7 @@ const MultiStepForm = () => {
             onChange={changeHandler}
             className="text"
           />
+          {errors.jobTitle && <p className="error">{errors.jobTitle}</p>}
           <label>Salary</label>
           <input
             type="number"
@@ -87,6 +138,7 @@ const MultiStepForm = () => {
             onChange={changeHandler}
             className="text"
           />
+          {errors.salary && <p className="error">{errors.salary}</p>}
           <label>Location</label>
           <input
             type="string"
@@ -95,29 +147,40 @@ const MultiStepForm = () => {
             onChange={changeHandler}
             className="text"
           />
+          {errors.location && <p className="error">{errors.location}</p>}
         </div>
       )}
 
       {step === 2 && (
         <div>
           <h2>Review Information</h2>
-          <p>Name: Shiva</p>
-          <p>Email: xyz@gmail.com</p>
-          <p>Job Title: React Developer</p>
-          <p>Salary: Rs. 14 LPA</p>
-          <p>Location: Chennai</p>
+          <p>
+            <b>Name:</b> {formData.name}
+          </p>
+          <p>
+            <b>Email:</b> {formData.email}
+          </p>
+          <p>
+            <b>Job Title:</b> {formData.jobTitle}
+          </p>
+          <p>
+            <b>Location:</b> {formData.location}
+          </p>
+          <p>
+            <b>Salary:</b> {formData.salary ?? "Not provided"}
+          </p>
         </div>
       )}
 
       {/* Navigation Buttons */}
       <div className="buttons">
         {step > 0 && (
-          <button className="btn" onClick={() => setStep((step) => step - 1)}>
-            Back
+          <button className="btn" onClick={prevStep}>
+            Prev
           </button>
         )}
         {step < tabs.length - 1 && (
-          <button className="btn" onClick={() => setStep((step) => step + 1)}>
+          <button className="btn" onClick={nextStep}>
             Next
           </button>
         )}
