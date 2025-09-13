@@ -6,6 +6,7 @@ type FormData = {
   email: string;
   jobTitle: string;
   location: string;
+  workPreference: string; // "remote" | "hybrid"
   salary: number | null;
 };
 
@@ -14,6 +15,7 @@ const initialData = {
   email: "",
   jobTitle: "",
   location: "",
+  workPreference: "hybrid", // ✅ default selected
   salary: null,
 };
 
@@ -139,9 +141,38 @@ const MultiStepForm = () => {
             className="text"
           />
           {errors.salary && <p className="error">{errors.salary}</p>}
+          <div>
+            <label>Preferred Job Location:</label>
+            <div className="radio-group">
+              <label className="radio-option">
+                <input
+                  type="radio"
+                  name="workPreference"
+                  value="remote"
+                  checked={formData.workPreference === "remote"}
+                  onChange={changeHandler}
+                />
+                Remote
+              </label>
+              <label className="radio-option">
+                <input
+                  type="radio"
+                  name="workPreference"
+                  value="hybrid"
+                  checked={formData.workPreference === "hybrid"}
+                  onChange={changeHandler}
+                />
+                Hybrid
+              </label>
+            </div>
+            {errors.workPreference && (
+              <p style={{ color: "red" }}>{errors.workPreference}</p>
+            )}
+          </div>
+
           <label>Location</label>
           <input
-            type="string"
+            type="text"
             name="location"
             value={formData.location}
             onChange={changeHandler}
@@ -168,6 +199,9 @@ const MultiStepForm = () => {
           </p>
           <p>
             <b>Salary:</b> {formData.salary ?? "Not provided"}
+          </p>
+          <p>
+            <b>WorkPreference:</b> {formData.workPreference}
           </p>
         </div>
       )}
