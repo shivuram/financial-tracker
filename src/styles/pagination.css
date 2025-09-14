@@ -1,0 +1,31 @@
+.app-container {
+  max-width: 1200px; /* increase width so 3 fit in a row */
+  margin: 40px auto;
+  padding: 20px;
+  background: #fefefe;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  font-family: "Segoe UI", sans-serif;
+  text-align: center;
+}
+
+.product-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.product-card {
+  border: 1px solid black;
+  display: flex;
+  flex-wrap: wrap;
+  width: 210px;
+  padding: 5px;
+  margin: 5px;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.product-card img {
+  width: 200px;
+  height: 200px;
+}

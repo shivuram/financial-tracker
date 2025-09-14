@@ -18,6 +18,9 @@ const Home = () => {
           <li>
             <NavLink to="/multi-step-form">Multi Step Form Application</NavLink>
           </li>
+          <li>
+            <NavLink to="/pagination">Pagination</NavLink>
+          </li>
         </ul>
       </nav>
     </div>

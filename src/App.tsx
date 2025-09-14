@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import AddJobs from "./pages/Job-Portal/Add-jobs";
 import JobPortalLayout from "./pages/Job-Portal/JobPortalLayout";
 import MultiStepForm from "./pages/Multi-Step-Form/Mult-Step-Form";
+import Pagination from "./pages/Pagination/Pagination";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           </Route>
 
           <Route path="/multi-step-form" element={<MultiStepForm />} />
+          <Route path="/pagination" element={<Pagination />} />
         </Routes>
       </BrowserRouter>
     </>
