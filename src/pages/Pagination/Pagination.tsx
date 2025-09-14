@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import "../../styles/pagination.css";
 
 type Products = {
@@ -14,7 +14,7 @@ const Pagination = () => {
   const [products, setProducts] = useState<Products[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
   const totalPages = Math.ceil(products.length / ITEMS_PER_PAGE);
   // No of pages = total product / per page limit
   // Prev, Next
@@ -34,6 +34,12 @@ const Pagination = () => {
     }
   };
 
+  const paginatedProducts = useMemo(() => {
+    const start = currentPage * ITEMS_PER_PAGE;
+    const end = start + ITEMS_PER_PAGE;
+    return products.slice(start, end);
+  }, [products, currentPage]);
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -46,14 +52,32 @@ const Pagination = () => {
     <div className="app-container">
       <h2>Pagination</h2>
       <div className="pagination-container">
-        <button>Prev</button>
+        <button
+          onClick={() => setCurrentPage(currentPage - 1)}
+          disabled={currentPage === 0}
+        >
+          Prev
+        </button>
         {[...Array(totalPages).keys()].map((page) => {
-          return <button key={page}>{page}</button>;
+          return (
+            <button
+              key={page}
+              onClick={() => setCurrentPage(page)}
+              className={currentPage === page ? "active" : ""}
+            >
+              {page}
+            </button>
+          );
         })}
       </div>
-      <button>Next</button>
+      <button
+        onClick={() => setCurrentPage(currentPage + 1)}
+        disabled={currentPage >= totalPages - 1}
+      >
+        Next
+      </button>
       <div className="product-container">
-        {products.map((product) => {
+        {paginatedProducts.map((product) => {
           return (
             <div className="product-card" key={product.id}>
               <div>
