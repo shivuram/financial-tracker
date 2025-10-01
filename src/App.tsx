@@ -7,6 +7,7 @@ import AddJobs from "./pages/Job-Portal/Add-jobs";
 import JobPortalLayout from "./pages/Job-Portal/JobPortalLayout";
 import MultiStepForm from "./pages/Multi-Step-Form/Mult-Step-Form";
 import Pagination from "./pages/Pagination/Pagination";
+import AutoCompleteSearch from "./pages/AutoComplete-Search/AutoComplete-Search";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
 
           <Route path="/multi-step-form" element={<MultiStepForm />} />
           <Route path="/pagination" element={<Pagination />} />
+          <Route path="/autocomplete-search" element={<AutoCompleteSearch />} />
         </Routes>
       </BrowserRouter>
     </>
