@@ -45,10 +45,13 @@ const AutoCompleteSearch = () => {
         </div>
 
         <div className="results-container">
-          {showResults &&
+          {showResults && results.length > 0 ? (
             results.map((r) => {
               return <span key={r.id}>{r.title}</span>;
-            })}
+            })
+          ) : (
+            <span>No Results Found</span>
+          )}
         </div>
       </div>
     </div>
