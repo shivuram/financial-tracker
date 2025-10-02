@@ -26,7 +26,13 @@ const AutoCompleteSearch = () => {
   };
 
   useEffect(() => {
-    fetchData(input);
+    const timer = setTimeout(() => {
+      fetchData(input);
+    }, 400);
+
+    return () => {
+      clearTimeout(timer);
+    };
   }, [input]);
 
   return (
