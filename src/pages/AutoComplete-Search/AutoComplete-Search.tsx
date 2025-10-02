@@ -10,16 +10,52 @@ const AutoCompleteSearch = () => {
   const [input, setInput] = useState("");
   const [results, setResults] = useState<Result[]>([]);
   const [showResults, setShowResults] = useState(false);
+  const [cache, setCache] = useState<Record<string, Result[]>>({});
+
+  // cache data
+  // const DUMMY_CACHE = {
+  //   iphone: [
+  //     {
+  //       id: 101,
+  //       title: "Apple AirPods Max Silver",
+  //     },
+  //     {
+  //       id: 104,
+  //       title: "Apple iPhone Charger",
+  //     },
+  //   ],
+  //   food: [
+  //     {
+  //       id: 18,
+  //       title: "Cat Food",
+  //     },
+  //     {
+  //       id: 22,
+  //       title: "Dog Food",
+  //     },
+  //   ],
+  // };
+  // Check if input is in cache. if yes give results from cache otherwise fetchdata
+
   const fetchData = async (input: string) => {
-    console.log("fetch data", input);
     try {
+      if (input in cache) {
+        setResults(cache[input]);
+        console.log("CACHE", input);
+        return;
+      }
+
+      console.log("API CALL", input);
+
       const response = await fetch(
         `https://dummyjson.com/products/search?q=${input}`
       );
       if (!response.ok) throw new Error("Failed to fetch products");
       const data = await response.json();
       setResults(data?.products);
-      console.log("results", results);
+      setCache((prev) => {
+        return { ...prev, [input]: data?.products };
+      });
     } catch (err) {
       console.log("Error", err);
     }
@@ -51,13 +87,10 @@ const AutoCompleteSearch = () => {
         </div>
 
         <div className="results-container">
-          {showResults && results.length > 0 ? (
+          {showResults &&
             results.map((r) => {
               return <span key={r.id}>{r.title}</span>;
-            })
-          ) : (
-            <span>No Results Found</span>
-          )}
+            })}
         </div>
       </div>
     </div>
