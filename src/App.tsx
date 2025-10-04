@@ -8,6 +8,7 @@ import JobPortalLayout from "./pages/Job-Portal/JobPortalLayout";
 import MultiStepForm from "./pages/Multi-Step-Form/Mult-Step-Form";
 import Pagination from "./pages/Pagination/Pagination";
 import AutoCompleteSearch from "./pages/AutoComplete-Search/AutoComplete-Search";
+import ShoppingCart from "./pages/Shopping-cart/shopping-cart";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="/multi-step-form" element={<MultiStepForm />} />
           <Route path="/pagination" element={<Pagination />} />
           <Route path="/autocomplete-search" element={<AutoCompleteSearch />} />
+          <Route path="/shopping-cart" element={<ShoppingCart />} />
         </Routes>
       </BrowserRouter>
     </>

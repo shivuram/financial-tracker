@@ -62,6 +62,17 @@
 3. Show hide search results on focus and blur
 4. Improve performance with debouncing and caching - Implement debouncing and caching so repeated queries return cached results instead of making a new API call.
 
+# Shopping Cart
+
+1. Display list of products
+2. Each Product should show `name` `price` `category` and `Add to Cart` Button
+3. Implement Cart State using useReducer with `add item, remove item, update quanity, empty cart`
+4. Make that cart state accessible globally using Context API
+5. Cart Page --> List of Cart items(name, quantity, price, remove/update actions) and cart summary (Total items, total price, Discount: if more than 5 items, apply 10% discount, Final Price after discount)
+6. Edge Cases: If stock = 0 --> Disable Add to Card Button in products
+7. If cart is empty then show "Your cart is empty"
+8. Implement Loader or spinner for API Call
+
 ## Learnings
 
 1. When fetch did't throw error and when catch blocks catches error
@@ -91,7 +102,7 @@
    - Example in vanilla JS
 
    ```js
-   const key = "foo";
+   const key = 'foo';
    const obj1 = { key: 123 }; // ❌ adds property literally "key"
    console.log(obj1); // { key: 123 }
 
