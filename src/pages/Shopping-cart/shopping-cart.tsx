@@ -52,7 +52,11 @@ const ShoppingCart = () => {
             <div>{product.title}</div>
             <div>{product.category}</div>
             <div>${product.price}</div>
-            <button className="cart-button">Add to Cart</button>
+            <button
+              className={`cart-button ${product.stock < 10 ? 'disabled' : ''}`}
+            >
+              Add to Cart
+            </button>
           </div>
         ))}
       </div>

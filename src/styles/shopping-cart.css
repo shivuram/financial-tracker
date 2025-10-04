@@ -39,6 +39,11 @@
   cursor: pointer;
 }
 
+.shopping-cart .cart-button.disabled {
+  cursor: not-allowed;
+  background-color: #ddd;
+}
+
 .shopping-cart .product-list-item:hover {
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
 }
