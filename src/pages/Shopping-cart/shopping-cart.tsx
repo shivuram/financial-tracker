@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import '../../styles/shopping-cart.css';
 import CartSideBar from '../../components/ShoppingCart/CartSideBar';
+import { ShoppingCartContext } from '../../contexts/ShoppingCartContext';
 
 type Products = {
   id: number;
@@ -14,6 +15,8 @@ type Products = {
 const ShoppingCart = () => {
   const [products, setProducts] = useState<Products[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+
+  const { count } = useContext(ShoppingCartContext);
 
   const handleCloseCart = () => {
     setIsCartOpen(false);
@@ -38,6 +41,8 @@ const ShoppingCart = () => {
   return (
     <div className="shopping-cart">
       <h2>Mini E-Commerce Application</h2>
+
+      {count}
 
       <header style={{ padding: '1rem', borderBottom: '1px solid #eee' }}>
         <button onClick={() => setIsCartOpen(true)}>🛒 View Cart</button>

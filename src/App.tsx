@@ -1,14 +1,14 @@
-import "./App.css";
-import Transactions from "./pages/Transactions/Transactions";
-import JobPortal from "./pages/Job-Portal/Job-Portal";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import AddJobs from "./pages/Job-Portal/Add-jobs";
-import JobPortalLayout from "./pages/Job-Portal/JobPortalLayout";
-import MultiStepForm from "./pages/Multi-Step-Form/Mult-Step-Form";
-import Pagination from "./pages/Pagination/Pagination";
-import AutoCompleteSearch from "./pages/AutoComplete-Search/AutoComplete-Search";
-import ShoppingCart from "./pages/Shopping-cart/shopping-cart";
+import './App.css';
+import Transactions from './pages/Transactions/Transactions';
+import JobPortal from './pages/Job-Portal/Job-Portal';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import AddJobs from './pages/Job-Portal/Add-jobs';
+import JobPortalLayout from './pages/Job-Portal/JobPortalLayout';
+import MultiStepForm from './pages/Multi-Step-Form/Mult-Step-Form';
+import Pagination from './pages/Pagination/Pagination';
+import AutoCompleteSearch from './pages/AutoComplete-Search/AutoComplete-Search';
+import ShoppingCartLayout from './pages/Shopping-cart/Shopping-cart-layout';
 
 function App() {
   return (
@@ -29,7 +29,8 @@ function App() {
           <Route path="/multi-step-form" element={<MultiStepForm />} />
           <Route path="/pagination" element={<Pagination />} />
           <Route path="/autocomplete-search" element={<AutoCompleteSearch />} />
-          <Route path="/shopping-cart" element={<ShoppingCart />} />
+
+          <Route path="/shopping-cart" element={<ShoppingCartLayout />} />
         </Routes>
       </BrowserRouter>
     </>

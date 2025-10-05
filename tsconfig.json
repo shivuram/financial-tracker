@@ -2,6 +2,8 @@
   "compilerOptions": {
     "target": "ESNext",
     "lib": ["DOM", "ESNext"],
+    "allowJs": true, // allows importing .js/.jsx
+    "checkJs": false, // avoids type checking JS files
     "module": "ESNext",
     "jsx": "react-jsx", // ✅ This is required for JSX in TSX
     "moduleResolution": "node",
