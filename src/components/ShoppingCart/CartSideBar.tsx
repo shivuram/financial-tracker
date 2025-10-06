@@ -1,4 +1,6 @@
+import { useContext } from 'react';
 import './CartSidebar.css';
+import { ShoppingCartContext } from '../../contexts/ShoppingCartContext';
 
 type CartSidebarProps = {
   isOpen: boolean;
@@ -6,6 +8,10 @@ type CartSidebarProps = {
 };
 
 const CartSideBar = ({ isOpen, onClose }: CartSidebarProps) => {
+  const { state, dispatch } = useContext(ShoppingCartContext);
+
+  console.log('state', state);
+
   if (!isOpen) {
     return null;
   }
@@ -25,7 +31,23 @@ const CartSideBar = ({ isOpen, onClose }: CartSidebarProps) => {
             ❌
           </button>
         </div>
-        <div className="cart-items">Cart Items</div>
+        <div className="cart-items">
+          {state.items.map((item: any) => {
+            return (
+              <div className="cart-item" key={item.id}>
+                <div>
+                  <h4>{item.title}</h4>
+                  <p>{item.price}</p>
+                </div>
+                <div className="cart-controls">
+                  <button>-</button>
+                  <input type="text" value={item.qty} readOnly />
+                  <button>+</button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
         <div className="cart-summary">Cart Summary</div>
       </div>
     </>

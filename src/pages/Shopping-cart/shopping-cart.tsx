@@ -16,10 +16,17 @@ const ShoppingCart = () => {
   const [products, setProducts] = useState<Products[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
-  const { count } = useContext(ShoppingCartContext);
+  const { state, dispatch } = useContext(ShoppingCartContext);
 
   const handleCloseCart = () => {
     setIsCartOpen(false);
+  };
+
+  const addToCart = (product: any) => {
+    dispatch({
+      type: 'ADD_ITEM',
+      payload: { id: product.id, title: product.title, price: product.price },
+    });
   };
 
   useEffect(() => {
@@ -42,8 +49,6 @@ const ShoppingCart = () => {
     <div className="shopping-cart">
       <h2>Mini E-Commerce Application</h2>
 
-      {count}
-
       <header style={{ padding: '1rem', borderBottom: '1px solid #eee' }}>
         <button onClick={() => setIsCartOpen(true)}>🛒 View Cart</button>
       </header>
@@ -59,6 +64,7 @@ const ShoppingCart = () => {
             <div>${product.price}</div>
             <button
               className={`cart-button ${product.stock < 10 ? 'disabled' : ''}`}
+              onClick={() => addToCart(product)}
             >
               Add to Cart
             </button>
