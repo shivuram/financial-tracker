@@ -24,8 +24,14 @@ const Home = () => {
           <li>
             <NavLink to="/autocomplete-search">AutoComplete Search Bar</NavLink>
           </li>
-           <li>
+          <li>
             <NavLink to="/shopping-cart">Shopping Cart</NavLink>
+          </li>
+          <li>
+            <NavLink to="/practicing">Practicing</NavLink>
+          </li>
+          <li>
+            <NavLink to="/forms">Forms</NavLink>
           </li>
         </ul>
       </nav>

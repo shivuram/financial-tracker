@@ -80,6 +80,19 @@
   margin-right: 6px;
 }
 
+/* 📱 Responsive behavior */
+@media (max-width: 600px) {
+  .filtering {
+    flex-direction: column; /* stack vertically */
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .filtering select {
+    width: 100%;
+  }
+}
+
 .header-container {
   display: flex;
   justify-content: space-between;
