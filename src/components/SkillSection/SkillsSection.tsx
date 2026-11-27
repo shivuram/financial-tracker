@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "../../styles/form.css";
 
-const SkillsSection = ({ skills, setSkills }) => {
+const SkillsSection = ({ skills, setSkills, error }) => {
   const [skillsInput, setSkillsInput] = useState("");
 
   const addSkills = () => {
@@ -28,7 +28,7 @@ const SkillsSection = ({ skills, setSkills }) => {
         value={skillsInput}
         onChange={(e) => setSkillsInput(e.target.value)}
       />
-
+      {error && <p className="error">{error}</p>}
       <button type="button" onClick={() => addSkills()}>
         Add Skills
       </button>

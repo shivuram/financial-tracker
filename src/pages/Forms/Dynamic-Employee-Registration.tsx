@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import SkillsSection from "../../components/SkillSection/SkillsSection";
 import "../../styles/form.css";
 
@@ -7,42 +7,92 @@ export type employeeDataType = {
   email: string;
   age: number;
   employmentType: string;
-  department: string;
-  salary: number;
-  duration: number;
-  rate: number;
+  department: string | null;
+  salary: string;
+  duration: string;
+  rate: string;
   skills: string[];
+};
+
+type FormErrors = {
+  name?: string;
+  email?: string;
+  age?: string;
+  department?: string;
+  salary?: string;
+  duration?: string;
+  rate?: string;
+  skills?: string;
 };
 
 function DynamicEmployeeRegistration() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [age, setAge] = useState("");
+  const [age, setAge] = useState<number | undefined>();
   const [employmentType, setEmploymentType] = useState("Permanent");
   const [department, setDepartment] = useState("");
   const [salary, setSalary] = useState("");
   const [duration, setDuration] = useState("");
   const [rate, setRate] = useState("");
-  const [employeeData, setEmployeeData] = useState<employeeDataType>({});
-  const [skills, setSkills] = useState(["React"]);
+  const [employeeData, setEmployeeData] = useState<employeeDataType>();
+  const [skills, setSkills] = useState<string[]>(["React"]);
   const [isSuccess, setIsSuccess] = useState(false);
-  //const [errorMessage, setErrorMessage] = useState("");
+  const [errors, setErrors] = useState<FormErrors>({});
 
-  const submitHandler = (event) => {
+  const validateForm = () => {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const nextErrors: FormErrors = {};
+
+    if (name.trim().length < 3) {
+      nextErrors.name = "Minimum 3 characters required";
+    }
+
+    if (!emailRegex.test(email)) {
+      nextErrors.email = "Invalid Email Format";
+    }
+
+    if (age === undefined) {
+      nextErrors.age = "Age is required";
+    } else if (age < 18 || age > 60) {
+      nextErrors.age = "Age should be between 18 and 60";
+    }
+
+    if (department.trim().length === 0) {
+      nextErrors.department = "Department is required";
+    }
+
+    if (salary.trim().length > 0) {
+      nextErrors.salary = "Salary Must be greater than 0";
+    }
+
+    if (duration.trim().length > 0) {
+      nextErrors.duration = "Required for Contract, greater than 0";
+    }
+
+    if (rate.trim().length > 0) {
+      nextErrors.rate = "Required for Contract, greater than 0";
+    }
+
+    if (skills.length === 0) {
+      nextErrors.skills = "At least one non-empty skilln required";
+    }
+
+    setErrors(nextErrors);
+    return Object.keys(nextErrors).length === 0;
+  };
+
+  const submitHandler = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-    // if (name.length < 3) {
-    //   console.log(name.length);
-    //   setErrorMessage("Minimum 3 Characters required");
-    //   return;
-    // } else if (emailRegex.test(email)) {
-    //   setErrorMessage("Invalid Email Format");
-    // }
+    if (!validateForm()) {
+      setIsSuccess(false);
+      return;
+    }
+
     setEmployeeData({
       name,
       email,
-      age,
+      age: age ?? 0,
       employmentType,
       department,
       salary,
@@ -65,8 +115,8 @@ function DynamicEmployeeRegistration() {
           className="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          required
         />
+        {errors.name && <p className="error">{errors.name}</p>}
         <br />
         <label>Email</label>
         <input
@@ -76,8 +126,9 @@ function DynamicEmployeeRegistration() {
           className="text"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          required
         />
+        {errors.email && <p className="error">{errors.email}</p>}
+        <br />
         <label>Age</label>
         <input
           id="age"
@@ -85,9 +136,10 @@ function DynamicEmployeeRegistration() {
           type="number"
           className="text"
           value={age}
-          onChange={(e) => setAge(e.target.value)}
-          required
+          onChange={(e) => setAge(Number(e.target.value))}
         />
+        {errors.age && <p className="error">{errors.age}</p>}
+        <br />
         <label>Employment Type</label>
         <select
           value={employmentType}
@@ -106,8 +158,9 @@ function DynamicEmployeeRegistration() {
               className="text"
               value={department}
               onChange={(e) => setDepartment(e.target.value)}
-              required
             />
+            {errors.department && <p className="error">{errors.department}</p>}
+            <br />
             <label>Annual Salary</label>
             <input
               id="salary"
@@ -117,6 +170,8 @@ function DynamicEmployeeRegistration() {
               value={salary}
               onChange={(e) => setSalary(e.target.value)}
             />
+            {errors.salary && <p className="error">{errors.salary}</p>}
+            <br />
           </div>
         ) : (
           <div>
@@ -129,6 +184,8 @@ function DynamicEmployeeRegistration() {
               value={duration}
               onChange={(e) => setDuration(e.target.value)}
             />
+            {errors.duration && <p className="error">{errors.duration}</p>}
+            <br />
             <label>Hourly Rate</label>
             <input
               id="rate"
@@ -138,17 +195,29 @@ function DynamicEmployeeRegistration() {
               value={rate}
               onChange={(e) => setRate(e.target.value)}
             />
+            {errors.rate && <p className="error">{errors.rate}</p>}
+            <br />
           </div>
         )}
 
-        <SkillsSection skills={skills} setSkills={setSkills} />
+        <SkillsSection
+          skills={skills}
+          setSkills={setSkills}
+          error={errors.skills}
+        />
 
         <button type="submit">Submit</button>
       </form>
       {isSuccess && (
         <>
           <h2>Employee Data Submitted successfully</h2>
-          {employeeData && <p>{employeeData.name}</p>}
+          {employeeData && (
+            <div>
+              <p>{employeeData.name}</p>
+              <p>{employeeData.age}</p>
+              <p>{employeeData.employmentType}</p>
+            </div>
+          )}
         </>
       )}
     </div>
