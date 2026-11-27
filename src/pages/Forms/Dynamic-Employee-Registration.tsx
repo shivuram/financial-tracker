@@ -57,20 +57,28 @@ function DynamicEmployeeRegistration() {
       nextErrors.age = "Age should be between 18 and 60";
     }
 
-    if (department.trim().length === 0) {
-      nextErrors.department = "Department is required";
-    }
+    if (employmentType === "Permanent") {
+      if (department.trim().length === 0) {
+        nextErrors.department = "Department is required";
+      }
 
-    if (salary.trim().length > 0) {
-      nextErrors.salary = "Salary Must be greater than 0";
-    }
+      if (salary.trim().length === 0) {
+        nextErrors.salary = "Salary is required";
+      } else if (Number(salary) <= 0) {
+        nextErrors.salary = "Salary must be greater than 0";
+      }
+    } else {
+      if (duration.trim().length === 0) {
+        nextErrors.duration = "Contract duration is required";
+      } else if (Number(duration) <= 0) {
+        nextErrors.duration = "Contract duration must be greater than 0";
+      }
 
-    if (duration.trim().length > 0) {
-      nextErrors.duration = "Required for Contract, greater than 0";
-    }
-
-    if (rate.trim().length > 0) {
-      nextErrors.rate = "Required for Contract, greater than 0";
+      if (rate.trim().length === 0) {
+        nextErrors.rate = "Hourly rate is required";
+      } else if (Number(rate) <= 0) {
+        nextErrors.rate = "Hourly rate must be greater than 0";
+      }
     }
 
     if (skills.length === 0) {
