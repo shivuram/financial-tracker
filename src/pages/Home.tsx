@@ -33,6 +33,9 @@ const Home = () => {
           <li>
             <NavLink to="/forms">Forms</NavLink>
           </li>
+          <li>
+            <NavLink to="/employee-form">Dynamic Registration Form</NavLink>
+          </li>
         </ul>
       </nav>
     </div>

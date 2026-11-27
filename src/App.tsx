@@ -12,6 +12,7 @@ import ShoppingCartLayout from "./pages/Shopping-cart/Shopping-cart-layout";
 // import Dummy from "./pages/Dummy/Dummy"; // Add the missing import
 import Form from "./pages/Forms/Forms";
 import Practicing from "./pages/Practicing/Practicing";
+import DynamicEmployeeRegistration from "./pages/Forms/Dynamic-Employee-Registration";
 
 function App() {
   return (
@@ -36,6 +37,10 @@ function App() {
           <Route path="/shopping-cart" element={<ShoppingCartLayout />} />
           <Route path="/practicing" element={<Practicing />} />
           <Route path="/forms" element={<Form />} />
+          <Route
+            path="/employee-form"
+            element={<DynamicEmployeeRegistration />}
+          />
         </Routes>
       </BrowserRouter>
     </>
