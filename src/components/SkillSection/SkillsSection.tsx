@@ -33,8 +33,8 @@ const SkillsSection = ({ skills, setSkills, error }) => {
         Add Skills
       </button>
       {skills.map((tag) => (
-        <div className="list-card">
-          <p key={Math.random()}>{tag}</p>
+        <div className="list-card" key={tag}>
+          <p>{tag}</p>
           <button
             className="delete-button"
             type="button"
